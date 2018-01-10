@@ -11,6 +11,7 @@
 #ifndef __STRIDER_H__
 #define __STRIDER_H__
 
+#include <vector>
 #include <functional>
 
 #include <boost/iterator/iterator_adaptor.hpp>
@@ -23,6 +24,8 @@ using boost::enable_if_convertible;
 using boost::iterator_core_access;
 
 using std::next;
+using std::size_t;
+using std::vector;
 using std::iterator_traits;
 
 template <class Iterator>

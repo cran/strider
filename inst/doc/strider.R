@@ -1,10 +1,4 @@
-## ----include=FALSE, message=FALSE, warning=FALSE-------------------------
-library(dplyr)
-library(ggplot2)
-library(microbenchmark)
-
-#knitr::opts_chunk$set(cache=TRUE)
-
+## ----include=FALSE-------------------------------------------------------
 header_code = '
 #include <Rcpp.h>
 using Rcpp::stop;
@@ -25,6 +19,7 @@ using std::accumulate;
 using std::transform;
 using std::for_each;
 using std::begin;
+using std::plus;
 using std::end;
 
 #include <vector>
@@ -49,15 +44,20 @@ b = 1:100
 if (!identical(convolve_cpp(a, b), range_loop_convolve(a, b)))
   stop("range_loop_convolve is incorrect")
 
-## ----echo=FALSE----------------------------------------------------------
-a = rnorm(5e3)
-b = rnorm(5e3)
-microbenchmark(convolve_cpp(a, b),
-               stl_algo_convolve(a, b),
-               range_loop_convolve(a, b)) %>%
-  summary(unit = "eps") %>% select(expr, median) %>%
-  mutate(relative = median / max(median)) %>% arrange(1 / median) %>%
-  knitr::kable(digits = 1, caption = "Evaluations per second")
+## ----echo=FALSE, warning=FALSE, message=FALSE----------------------------
+if (require(microbenchmark) && require(dplyr))
+{
+  a = rnorm(5e3)
+  b = rnorm(5e3)
+  microbenchmark(convolve_cpp(a, b),
+                 stl_algo_convolve(a, b),
+                 range_loop_convolve(a, b)) %>%
+    summary(unit = "eps") %>% select(expr, median) %>%
+    mutate(relative = median / max(median)) %>% arrange(1 / median) %>%
+    knitr::kable(digits = 1, caption = "Evaluations per second")
+} else {
+  cat("Error: either dplyr or microbenchmark is not available")
+}
 
 ## ----include=FALSE-------------------------------------------------------
 local({
@@ -70,13 +70,18 @@ if (!identical(range_col_sum(x), colSums(x)))
   stop("range_col_sum is incorrect")
 })
 
-## ----echo=FALSE----------------------------------------------------------
-x = matrix(rnorm(1e6), 1e3)
-microbenchmark(colSums(x), indx_col_sum(x),
-               strided_col_sum(x), range_col_sum(x)) %>%
-  summary(unit = "eps") %>% select(expr, median) %>%
-  mutate(relative = median / max(median)) %>% arrange(1 / median) %>%
-  knitr::kable(digits = 1, caption = "Evaluations per second")
+## ----echo=FALSE, warning=FALSE, message=FALSE----------------------------
+if (require(microbenchmark) && require(dplyr))
+{
+  x = matrix(rnorm(1e6), 1e3)
+  microbenchmark(colSums(x), indx_col_sum(x),
+                 strided_col_sum(x), range_col_sum(x)) %>%
+    summary(unit = "eps") %>% select(expr, median) %>%
+    mutate(relative = median / max(median)) %>% arrange(1 / median) %>%
+    knitr::kable(digits = 1, caption = "Evaluations per second")
+} else {
+  cat("Error: either dplyr or microbenchmark is not available")
+}
 
 ## ----include=FALSE-------------------------------------------------------
 local({
@@ -91,14 +96,19 @@ if (!identical(range_row_sum(x), rowSums(x)))
   stop("range_row_sum is incorrect")
 })
 
-## ----echo=FALSE----------------------------------------------------------
-x = matrix(rnorm(1e6), 1e3)
-microbenchmark(strided_row_sum(x), rowSums(x),
-               indx_row_sum(x), strided_row_sum2(x),
-               range_row_sum(x)) %>%
-  summary(unit = "eps") %>% select(expr, median) %>%
-  mutate(relative = median / max(median)) %>% arrange(1 / median) %>%
-  knitr::kable(digits = 1, caption = "Evaluations per second")
+## ----echo=FALSE, warning=FALSE, message=FALSE----------------------------
+if (require(microbenchmark) && require(dplyr))
+{
+  x = matrix(rnorm(1e6), 1e3)
+  microbenchmark(strided_row_sum(x), rowSums(x),
+                 indx_row_sum(x), strided_row_sum2(x),
+                 range_row_sum(x)) %>%
+    summary(unit = "eps") %>% select(expr, median) %>%
+    mutate(relative = median / max(median)) %>% arrange(1 / median) %>%
+    knitr::kable(digits = 1, caption = "Evaluations per second")
+} else {
+  cat("Error: either dplyr or microbenchmark is not available")
+}
 
 ## ----include=FALSE-------------------------------------------------------
 local({
@@ -109,8 +119,10 @@ b = matrix(c(0, 0, 0,
              0, 1, 0,
              0, 0, 0), 4, 3, byrow = TRUE)
 if (!identical(convolve2_cpp(a, b), range_loop_convolve2(a, b)) ||
+    !identical(convolve2_cpp(a, b), stl_algo_convolve2(a, b)) ||
     !identical(t(convolve2_cpp(a, b)), convolve2_cpp(t(a), t(b))) ||
-    !identical(t(range_loop_convolve2(a, b)), range_loop_convolve2(t(a), t(b))))
+    !identical(t(range_loop_convolve2(a, b)), range_loop_convolve2(t(a), t(b))) ||
+    !identical(t(stl_algo_convolve2(a, b)), stl_algo_convolve2(t(a), t(b))))
     stop("Problem with 2D convolve")
 })
 
@@ -121,15 +133,20 @@ b = matrix(c(0, 0, 0,
              0, 0, 0,
              0, 1, 0,
              0, 0, 0), 4, 3, byrow = TRUE)
-convolve2_cpp(a, b)
-range_loop_convolve2(a, b)
+stl_algo_convolve2(a, b)
 
-## ----echo = FALSE--------------------------------------------------------
-a = matrix(rnorm(2500), 50)
-b = matrix(rnorm(2500), 50)
-microbenchmark(convolve2_cpp(a, b),
-               range_loop_convolve2(a, b)) %>%
-  summary(unit = "eps") %>% select(expr, median) %>%
-  mutate(relative = median / max(median)) %>% arrange(1 / median) %>%
-  knitr::kable(digits = 1, caption = "Evaluations per second")
+## ----echo=FALSE, message=FALSE, warning=FALSE----------------------------
+if (require(microbenchmark) && require(dplyr))
+{
+  a = matrix(rnorm(2500), 50)
+  b = matrix(rnorm(2500), 50)
+  microbenchmark(convolve2_cpp(a, b),
+                 stl_algo_convolve2(a, b),
+                 range_loop_convolve2(a, b)) %>%
+    summary(unit = "eps") %>% select(expr, median) %>%
+    mutate(relative = median / max(median)) %>% arrange(1 / median) %>%
+    knitr::kable(digits = 1, caption = "Evaluations per second")
+} else {
+  cat("Error: either dplyr or microbenchmark is not available")
+}
 

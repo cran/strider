@@ -8,6 +8,7 @@ using std::for_each;
 using std::transform;
 using std::accumulate;
 using std::begin;
+using std::plus;
 using std::end;
 #include <strider.h>
 using strider::make_strided;
@@ -36,12 +37,8 @@ NumericVector row_sums(const NumericMatrix& x)
 {
   auto nr = x.nrow();
   NumericVector res(nr, 0.0);
-  for_each(make_strided(begin(x), nr),
-           make_strided(end(x), nr),
-           [&](const double& x){
-             transform(&x, &x + nr, begin(res), begin(res),
-                       [](const double& a, const double& b){
-                         return a + b; });});
+  for_each(make_strided(begin(x), nr), make_strided(end(x)), [&](const double& y) {
+    transform(&y, &y + nr, begin(res), begin(res), plus<double>());               });
   return res;
 }
 
@@ -86,20 +83,25 @@ convolve2(const NumericMatrix& a,
           const NumericMatrix& b)
 {
   int
-  nra = a.nrow(), nca = a.ncol(),
+    nra = a.nrow(), nca = a.ncol(),
     nrb = b.nrow(), ncb = b.ncol(),
     nrab = nra + nrb - 1,
     ncab = nca + ncb - 1;
   NumericMatrix ab(nrab, ncab);
-  auto iter1 = make_strided(begin(ab), nrab);
-  for (auto&& t : make_strided_range(begin(a), nra, nca))    {
-    auto iter2 = make_strided(&*iter1++, nrab);
-    for (auto&& u : make_strided_range(begin(b), nrb, ncb))  {
-      auto iter3 = &*iter2++;
-      for (auto&& v : make_strided_range(&t, 1, nra))        {
-        auto iter4 = iter3++;
-        for (auto&& w : make_strided_range(&u, 1, nrb))      {
-          *iter4++ += v * w;                                  }}}}
+  transform(make_strided(begin(a), nra), make_strided(end(a)),
+            make_strided(begin(ab), nrab), make_strided(begin(ab), nrab),
+            [&](const double& t, double& u) {
+              transform(make_strided(begin(b), nrb), make_strided(end(b)),
+                        make_strided(&u, nrab), make_strided(&u, nrab),
+                        [&](const double& v, double& w) {
+                          transform(&t, &t + nra, &w, &w,
+                                    [&](const double x, double& y) {
+                                      transform(&v, &v + nrb, &y, &y,
+                                                [&](const double z, const double zz) {
+                                                  return zz + x * z; });
+                                      return y; });
+                          return w; });
+              return u; });
   return ab;
 }
 
