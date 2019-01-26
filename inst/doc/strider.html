@@ -12,7 +12,7 @@
 
 <meta name="author" content="Timothy H. Keitt" />
 
-<meta name="date" content="2018-01-10" />
+<meta name="date" content="2019-01-25" />
 
 <title>The Strider Package</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">The Strider Package</h1>
 <h4 class="author"><em>Timothy H. Keitt</em></h4>
-<h4 class="date"><em>2018-01-10</em></h4>
+<h4 class="date"><em>2019-01-25</em></h4>
 
 
 
@@ -177,18 +177,18 @@ range_loop_convolve(<span class="at">const</span> NumericVector&amp; a,
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">range_loop_convolve(a, b)</td>
-<td align="right">96.0</td>
+<td align="left">stl_algo_convolve(a, b)</td>
+<td align="right">102.2</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">stl_algo_convolve(a, b)</td>
-<td align="right">96.0</td>
+<td align="left">range_loop_convolve(a, b)</td>
+<td align="right">102.1</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
 <td align="left">convolve_cpp(a, b)</td>
-<td align="right">93.8</td>
+<td align="right">101.7</td>
 <td align="right">1</td>
 </tr>
 </tbody>
@@ -272,22 +272,22 @@ NumericVector strided_col_sum(<span class="at">const</span> NumericMatrix&amp; x
 <tbody>
 <tr class="odd">
 <td align="left">strided_col_sum(x)</td>
-<td align="right">918.1</td>
+<td align="right">1036.2</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">colSums(x)</td>
+<td align="right">1032.9</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">range_col_sum(x)</td>
+<td align="right">1029.9</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
 <td align="left">indx_col_sum(x)</td>
-<td align="right">908.3</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">colSums(x)</td>
-<td align="right">897.0</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">range_col_sum(x)</td>
-<td align="right">882.8</td>
+<td align="right">1028.1</td>
 <td align="right">1</td>
 </tr>
 </tbody>
@@ -364,29 +364,29 @@ NumericVector strided_row_sum2(<span class="at">const</span> NumericMatrix&amp; 
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">indx_row_sum(x)</td>
-<td align="right">1575.9</td>
+<td align="left">range_row_sum(x)</td>
+<td align="right">1912.2</td>
 <td align="right">1.0</td>
 </tr>
 <tr class="even">
-<td align="left">range_row_sum(x)</td>
-<td align="right">1501.3</td>
+<td align="left">strided_row_sum2(x)</td>
+<td align="right">1906.5</td>
 <td align="right">1.0</td>
 </tr>
 <tr class="odd">
-<td align="left">strided_row_sum2(x)</td>
-<td align="right">1479.0</td>
-<td align="right">0.9</td>
+<td align="left">indx_row_sum(x)</td>
+<td align="right">1899.7</td>
+<td align="right">1.0</td>
 </tr>
 <tr class="even">
-<td align="left">rowSums(x)</td>
-<td align="right">423.6</td>
+<td align="left">strided_row_sum(x)</td>
+<td align="right">496.4</td>
 <td align="right">0.3</td>
 </tr>
 <tr class="odd">
-<td align="left">strided_row_sum(x)</td>
-<td align="right">390.8</td>
-<td align="right">0.2</td>
+<td align="left">rowSums(x)</td>
+<td align="right">479.4</td>
+<td align="right">0.3</td>
 </tr>
 </tbody>
 </table>
@@ -494,18 +494,18 @@ b =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</s
 <tbody>
 <tr class="odd">
 <td align="left">stl_algo_convolve2(a, b)</td>
-<td align="right">435</td>
+<td align="right">441.4</td>
 <td align="right">1.0</td>
 </tr>
 <tr class="even">
 <td align="left">range_loop_convolve2(a, b)</td>
-<td align="right">387</td>
+<td align="right">401.2</td>
 <td align="right">0.9</td>
 </tr>
 <tr class="odd">
 <td align="left">convolve2_cpp(a, b)</td>
-<td align="right">324</td>
-<td align="right">0.7</td>
+<td align="right">357.7</td>
+<td align="right">0.8</td>
 </tr>
 </tbody>
 </table>
@@ -514,7 +514,7 @@ b =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</s
 </div>
 <div id="other-approaches" class="section level2">
 <h2>Other approaches</h2>
-<p>Note that <a href="https://www.boost.org/doc/libs/release/libs/range/">Boost Range</a> and the <a href="https://github.com/ericniebler/range-v3">range v3 proposal</a> have strided iterators. Also, the <a href="https://github.com/QuantStack/xtensor">xtensor</a> library appears to be the heir-apparent for working with multidimensional data in C++ and perhaps <a href="https://cran.r-project.org/package=xtensor">R as well</a>. I have not tried to implement a 2D covolution with these, however it would be an interesting experiment.</p>
+<p>Note that <a href="https://www.boost.org/doc/libs/release/libs/range/">Boost Range</a> and the <a href="https://github.com/ericniebler/range-v3">range v3 proposal</a> have strided iterators. Of course, <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n3851.pdf">Herb Sutter has already thought of everything</a>, and there is an implementaiton <a href="https://github.com/wardw/array_view">here</a>. The <a href="https://github.com/QuantStack/xtensor">xtensor</a> library appears to be the heir-apparent for working with multidimensional data in C++ and perhaps <a href="https://cran.r-project.org/package=xtensor">R as well</a>. I have not tried to implement a 2D covolution with these, however it would be an interesting experiment.</p>
 </div>
 <div id="conclusions" class="section level2">
 <h2>Conclusions</h2>
