@@ -1,3 +1,9 @@
+## ----echo=FALSE----------------------------------------------------------
+if (!require("BH", quietly = TRUE)) {
+   message("This vignette needs BH; since it is not installed, code will not be executed.")
+   knitr::opts_chunk$set(eval = FALSE)
+}
+
 ## ----include=FALSE-------------------------------------------------------
 header_code = '
 #include <Rcpp.h>

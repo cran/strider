@@ -7,59 +7,293 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="author" content="Timothy H. Keitt" />
 
-<meta name="date" content="2019-01-25" />
+<meta name="date" content="2020-06-02" />
 
 <title>The Strider Package</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -69,8 +303,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">The Strider Package</h1>
-<h4 class="author"><em>Timothy H. Keitt</em></h4>
-<h4 class="date"><em>2019-01-25</em></h4>
+<h4 class="author">Timothy H. Keitt</h4>
+<h4 class="date">2020-06-02</h4>
 
 
 
@@ -82,88 +316,88 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="replacing-index-loops-with-standard-library-algorithms" class="section level3">
 <h3>Replacing index loops with standard library algorithms</h3>
 <p>As a prelude to using the <strong>strided_iterator</strong> class, I start out with an example of vector convolution because it is one of the original examples in the <a href="https://github.com/RcppCore/Rcpp">Rcpp</a> documentation, which I have copied verbatim here. I have placed some definitions into a header file whose contents can be found in the RMarkdown source file used to generate this output. Otherwise, all compiler settings were left at their default values.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// [[Rcpp::depends(BH)]]</span>
-<span class="co">// [[Rcpp::depends(strider)]]</span>
-<span class="co">// [[Rcpp::plugins(cpp11)]]</span>
-
-<span class="pp">#include </span><span class="im">&lt;vignette.h&gt;</span>
-
-<span class="co">// [[Rcpp::export]]</span>
-NumericVector
-convolve_cpp(<span class="at">const</span> NumericVector&amp; a,
-             <span class="at">const</span> NumericVector&amp; b) {
-  <span class="co">// Declare loop counters, and vector sizes</span>
-  <span class="dt">int</span> i, j,
-      na = a.size(), nb = b.size(),
-      nab = na + nb - <span class="dv">1</span>;
-  <span class="co">// Create vector filled with 0</span>
-  NumericVector ab(nab);
-  <span class="co">// Crux of the algorithm</span>
-  <span class="cf">for</span>(i = <span class="dv">0</span>; i &lt; na; i++) {
-    <span class="cf">for</span>(j = <span class="dv">0</span>; j &lt; nb; j++) {
-          ab[i + j] += a[i] * b[j];
-    }
-  }
-  <span class="co">// Return result</span>
-  <span class="cf">return</span> ab;
-}</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">// [[Rcpp::depends(BH)]]</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">// [[Rcpp::depends(strider)]]</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">// [[Rcpp::plugins(cpp11)]]</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="pp">#include </span><span class="im">&lt;vignette.h&gt;</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">// [[Rcpp::export]]</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">NumericVector</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">convolve_cpp(<span class="at">const</span> NumericVector&amp; a,</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">             <span class="at">const</span> NumericVector&amp; b) {</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">  <span class="co">// Declare loop counters, and vector sizes</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">  <span class="dt">int</span> i, j,</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">      na = a.size(), nb = b.size(),</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">      nab = na + nb - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">  <span class="co">// Create vector filled with 0</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">  NumericVector ab(nab);</a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">  <span class="co">// Crux of the algorithm</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">  <span class="cf">for</span>(i = <span class="dv">0</span>; i &lt; na; i++) {</a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">    <span class="cf">for</span>(j = <span class="dv">0</span>; j &lt; nb; j++) {</a>
+<a class="sourceLine" id="cb1-20" data-line-number="20">          ab[i + j] += a[i] * b[j];</a>
+<a class="sourceLine" id="cb1-21" data-line-number="21">    }</a>
+<a class="sourceLine" id="cb1-22" data-line-number="22">  }</a>
+<a class="sourceLine" id="cb1-23" data-line-number="23">  <span class="co">// Return result</span></a>
+<a class="sourceLine" id="cb1-24" data-line-number="24">  <span class="cf">return</span> ab;</a>
+<a class="sourceLine" id="cb1-25" data-line-number="25">}</a></code></pre></div>
 <p>The next code block shows my translation using the standard library transform algorithm. This version eschews integer indexes for incrementing iterators along the input and output vectors.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// [[Rcpp::depends(BH)]]</span>
-<span class="co">// [[Rcpp::depends(strider)]]</span>
-<span class="co">// [[Rcpp::plugins(cpp11)]]</span>
-
-<span class="pp">#include </span><span class="im">&lt;vignette.h&gt;</span>
-
-<span class="co">// [[Rcpp::export]]</span>
-NumericVector
-stl_algo_convolve(<span class="at">const</span> NumericVector&amp; a,
-                  <span class="at">const</span> NumericVector&amp; b) {
-  <span class="co">// Declare vector sizes</span>
-  <span class="dt">int</span>
-    na = a.size(), nb = b.size(), 
-    nab = na + nb - <span class="dv">1</span>;
-  <span class="co">// Create vector filled with 0</span>
-  NumericVector ab(nab);
-  <span class="co">// Crux of the algorithm</span>
-  transform(begin(a), end(a),
-            begin(ab), begin(ab),
-            [&amp;b](<span class="at">const</span> <span class="dt">double</span> t, <span class="dt">double</span>&amp; u) {
-              transform(begin(b), end(b), &amp;u, &amp;u,
-                        [t](<span class="at">const</span> <span class="dt">double</span> v, <span class="at">const</span> <span class="dt">double</span> w) {
-                          <span class="cf">return</span> w + t * v; });
-              <span class="cf">return</span> u; });
-  <span class="co">// Return result</span>
-  <span class="cf">return</span> ab;
-}</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">// [[Rcpp::depends(BH)]]</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">// [[Rcpp::depends(strider)]]</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">// [[Rcpp::plugins(cpp11)]]</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="pp">#include </span><span class="im">&lt;vignette.h&gt;</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">// [[Rcpp::export]]</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">NumericVector</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">stl_algo_convolve(<span class="at">const</span> NumericVector&amp; a,</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">                  <span class="at">const</span> NumericVector&amp; b) {</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">  <span class="co">// Declare vector sizes</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">  <span class="dt">int</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">    na = a.size(), nb = b.size(), </a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">    nab = na + nb - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">  <span class="co">// Create vector filled with 0</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">  NumericVector ab(nab);</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">  <span class="co">// Crux of the algorithm</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">  transform(begin(a), end(a),</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">            begin(ab), begin(ab),</a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">            [&amp;b](<span class="at">const</span> <span class="dt">double</span> t, <span class="dt">double</span>&amp; u) {</a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">              transform(begin(b), end(b), &amp;u, &amp;u,</a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">                        [t](<span class="at">const</span> <span class="dt">double</span> v, <span class="at">const</span> <span class="dt">double</span> w) {</a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">                          <span class="cf">return</span> w + t * v; });</a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">              <span class="cf">return</span> u; });</a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">  <span class="co">// Return result</span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26">  <span class="cf">return</span> ab;</a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">}</a></code></pre></div>
 <p>While the code is certainly more busy, replacing explicit loops with standard library algorithms is considered by some to be a best-practice that is less susceptible to indexing errors and buffer overruns.</p>
 <p>C++11 introduced range-based for-loops that many of the advantages of the standard library algorithms in terms of avoiding indexing errors and are simpler and somewhat more natural to reason about.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// [[Rcpp::depends(BH)]]</span>
-<span class="co">// [[Rcpp::depends(strider)]]</span>
-<span class="co">// [[Rcpp::plugins(cpp11)]]</span>
-
-<span class="pp">#include </span><span class="im">&lt;vignette.h&gt;</span>
-
-<span class="co">// [[Rcpp::export]]</span>
-NumericVector
-range_loop_convolve(<span class="at">const</span> NumericVector&amp; a,
-                    <span class="at">const</span> NumericVector&amp; b) {
-  <span class="co">// Declare vector sizes</span>
-  <span class="dt">int</span>
-    na = a.size(), nb = b.size(), 
-    nab = na + nb - <span class="dv">1</span>;
-  <span class="co">// Create vector filled with 0</span>
-  NumericVector ab(nab);
-  <span class="co">// Crux of the algorithm</span>
-  <span class="kw">auto</span> t = &amp;ab[<span class="dv">0</span>];
-  <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span> u : a)
-  {
-    <span class="kw">auto</span> v = t++;
-    <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span> w : b)
-      *v++ += u * w;
-  }
-  <span class="co">// Return result</span>
-  <span class="cf">return</span> ab;
-}</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">// [[Rcpp::depends(BH)]]</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">// [[Rcpp::depends(strider)]]</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">// [[Rcpp::plugins(cpp11)]]</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="pp">#include </span><span class="im">&lt;vignette.h&gt;</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">// [[Rcpp::export]]</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">NumericVector</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">range_loop_convolve(<span class="at">const</span> NumericVector&amp; a,</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">                    <span class="at">const</span> NumericVector&amp; b) {</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">  <span class="co">// Declare vector sizes</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">  <span class="dt">int</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">    na = a.size(), nb = b.size(), </a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">    nab = na + nb - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb3-15" data-line-number="15">  <span class="co">// Create vector filled with 0</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16">  NumericVector ab(nab);</a>
+<a class="sourceLine" id="cb3-17" data-line-number="17">  <span class="co">// Crux of the algorithm</span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">  <span class="kw">auto</span> t = &amp;ab[<span class="dv">0</span>];</a>
+<a class="sourceLine" id="cb3-19" data-line-number="19">  <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span> u : a)</a>
+<a class="sourceLine" id="cb3-20" data-line-number="20">  {</a>
+<a class="sourceLine" id="cb3-21" data-line-number="21">    <span class="kw">auto</span> v = t++;</a>
+<a class="sourceLine" id="cb3-22" data-line-number="22">    <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span> w : b)</a>
+<a class="sourceLine" id="cb3-23" data-line-number="23">      *v++ += u * w;</a>
+<a class="sourceLine" id="cb3-24" data-line-number="24">  }</a>
+<a class="sourceLine" id="cb3-25" data-line-number="25">  <span class="co">// Return result</span></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26">  <span class="cf">return</span> ab;</a>
+<a class="sourceLine" id="cb3-27" data-line-number="27">}</a></code></pre></div>
 <p>The main difference here is we have to manually increment the output iterator. That could be solved using a zip iterator adapter. (Convenient tuple syntax for this case is available in C++17.) Nonetheless, this example demonstrates how expressive range-based for-loops can be while avoiding explicit indices.</p>
 <p>There is no particular performance advantage to avoiding indices, so the choice is largely a matter of taste. Modern compilers will produce similar if not the exact same instructions regardless of the type of loop. Benchmarking comparisons can however point out problems with a particular implementation. It is useful to recall that benchmark differences within <span class="math inline">\(\pm 10\%\)</span> are likely meaningless and results will vary in different environments. Relative numbers below are therefore printed using <code>digits = 1</code> to demphasize small differences. With two vectors of length <span class="math inline">\(10^4\)</span>, I get the following performances for the different loop implementations.</p>
 <table>
@@ -178,17 +412,17 @@ range_loop_convolve(<span class="at">const</span> NumericVector&amp; a,
 <tbody>
 <tr class="odd">
 <td align="left">stl_algo_convolve(a, b)</td>
-<td align="right">102.2</td>
+<td align="right">109.6</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
 <td align="left">range_loop_convolve(a, b)</td>
-<td align="right">102.1</td>
+<td align="right">109.4</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
 <td align="left">convolve_cpp(a, b)</td>
-<td align="right">101.7</td>
+<td align="right">108.3</td>
 <td align="right">1</td>
 </tr>
 </tbody>
@@ -199,66 +433,66 @@ range_loop_convolve(<span class="at">const</span> NumericVector&amp; a,
 <h2>Strided_iterator and strided_range</h2>
 <p>The workhorse class in the <strong>strider</strong> package is <strong>strided_iterator</strong>, which inherits from the <a href="http://www.boost.org/doc/libs/release/libs/iterator/">Boost iterator adaptor</a> class. It merely advances by a specified stride when incremented. It is currently possible to use negative strides, however this is not tested. The strided iterator will conform to the same iterator category and support the same expressions as the iterator that is adapted. A second class, <strong>strided_range</strong> exists solely to construct begin and end iterators over a strided range.</p>
 <p>Users will generally only need to call one or both of two auxiliary functions with the following definitions:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span>&lt;<span class="kw">typename</span> T&gt;
-<span class="kw">inline</span> strided_iterator&lt;T&gt;
-make_strided(T iter,
-             <span class="kw">typename</span> iterator_traits&lt;T&gt;::<span class="dt">difference_type</span> stride = <span class="dv">0</span>,
-             <span class="kw">typename</span> iterator_traits&lt;T&gt;::<span class="dt">difference_type</span> strides = <span class="dv">0</span>);
-
-<span class="kw">template</span>&lt;<span class="kw">typename</span> T&gt;
-<span class="kw">inline</span> strided_range&lt;T&gt;
-make_strided_range(T iter,
-                   <span class="kw">typename</span> iterator_traits&lt;T&gt;::<span class="dt">difference_type</span> stride,
-                   <span class="kw">typename</span> iterator_traits&lt;T&gt;::<span class="dt">difference_type</span> strides);</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">template</span>&lt;<span class="kw">typename</span> T&gt;</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">inline</span> strided_iterator&lt;T&gt;</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">make_strided(T iter,</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">             <span class="kw">typename</span> iterator_traits&lt;T&gt;::<span class="dt">difference_type</span> stride = <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">             <span class="kw">typename</span> iterator_traits&lt;T&gt;::<span class="dt">difference_type</span> strides = <span class="dv">0</span>);</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw">template</span>&lt;<span class="kw">typename</span> T&gt;</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="kw">inline</span> strided_range&lt;T&gt;</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">make_strided_range(T iter,</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">                   <span class="kw">typename</span> iterator_traits&lt;T&gt;::<span class="dt">difference_type</span> stride,</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">                   <span class="kw">typename</span> iterator_traits&lt;T&gt;::<span class="dt">difference_type</span> strides);</a></code></pre></div>
 <p>The <code>make_strided</code> function converts an ordinary iterator to a strided iterator. The stride length is determined by the <code>stride</code> argument. As a convenience, the <code>strides</code> argument can be used to advance the supplied iterator <code>strides</code> <span class="math inline">\(\times\)</span> <code>stride</code> steps. This is useful in creating an end-sentinel iterator for a buffer that does not provide its own <code>end</code> function. Examples of this usage can be found below.</p>
 <p>The <code>make_strided_range</code> function creates a <code>strided_range</code> object with <code>begin</code> and <code>end</code> methods. Both <code>stride</code> and <code>strides</code> are required to define the spanned range.</p>
 <div id="striding-over-matrix-margins" class="section level3">
 <h3>Striding over matrix margins</h3>
 <p>As a minimal example, consider computing the column sums of a matrix. I provide three example implementations using indices, <code>make_strided</code> and <code>make_strided_range</code>.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// [[Rcpp::depends(BH)]]</span>
-<span class="co">// [[Rcpp::depends(strider)]]</span>
-<span class="co">// [[Rcpp::plugins(cpp11)]]</span>
-
-<span class="pp">#include </span><span class="im">&lt;vignette.h&gt;</span>
-
-<span class="co">// [[Rcpp::export]]</span>
-NumericVector indx_col_sum(<span class="at">const</span> NumericMatrix&amp; x)
-{
-  <span class="kw">auto</span>
-    nr = x.nrow(),
-    nc = x.ncol();
-  NumericVector res(nc, <span class="fl">0.0</span>);
-  <span class="cf">for</span> (<span class="dt">int</span> c = <span class="dv">0</span>; c != nc; ++c)
-    <span class="cf">for</span> (<span class="dt">int</span> r = <span class="dv">0</span>; r != nr; ++r)
-      res[c] += x(r, c);
-  <span class="cf">return</span> res;
-}
-
-<span class="co">// [[Rcpp::export]]</span>
-NumericVector range_col_sum(<span class="at">const</span> NumericMatrix&amp; x)
-{
-  <span class="kw">auto</span>
-    nr = x.nrow(),
-    nc = x.ncol();
-  NumericVector res(nc);
-  <span class="kw">auto</span> t = res.begin();
-  <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span>&amp; u : make_strided_range(begin(x), nr, nc))
-  {
-    <span class="cf">for</span> (<span class="kw">auto</span> v = &amp;u; v != &amp;u + nr; ++v) *t += *v;
-    ++t;
-  }
-  <span class="cf">return</span> res;
-}
-
-<span class="co">// [[Rcpp::export]]</span>
-NumericVector strided_col_sum(<span class="at">const</span> NumericMatrix&amp; x)
-{
-  <span class="kw">auto</span> nr = x.nrow();
-  NumericVector res(x.ncol());
-  transform(make_strided(begin(x), nr), make_strided(end(x)), begin(res),
-            [nr](<span class="at">const</span> <span class="dt">double</span>&amp; v){ <span class="cf">return</span> accumulate(&amp;v, &amp;v + nr, <span class="fl">0.0</span>); });
-  <span class="cf">return</span> res;
-}</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">// [[Rcpp::depends(BH)]]</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">// [[Rcpp::depends(strider)]]</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">// [[Rcpp::plugins(cpp11)]]</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="pp">#include </span><span class="im">&lt;vignette.h&gt;</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">// [[Rcpp::export]]</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">NumericVector indx_col_sum(<span class="at">const</span> NumericMatrix&amp; x)</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">{</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">  <span class="kw">auto</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">    nr = x.nrow(),</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">    nc = x.ncol();</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13">  NumericVector res(nc, <span class="fl">0.0</span>);</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14">  <span class="cf">for</span> (<span class="dt">int</span> c = <span class="dv">0</span>; c != nc; ++c)</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15">    <span class="cf">for</span> (<span class="dt">int</span> r = <span class="dv">0</span>; r != nr; ++r)</a>
+<a class="sourceLine" id="cb5-16" data-line-number="16">      res[c] += x(r, c);</a>
+<a class="sourceLine" id="cb5-17" data-line-number="17">  <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb5-18" data-line-number="18">}</a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">// [[Rcpp::export]]</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21">NumericVector range_col_sum(<span class="at">const</span> NumericMatrix&amp; x)</a>
+<a class="sourceLine" id="cb5-22" data-line-number="22">{</a>
+<a class="sourceLine" id="cb5-23" data-line-number="23">  <span class="kw">auto</span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24">    nr = x.nrow(),</a>
+<a class="sourceLine" id="cb5-25" data-line-number="25">    nc = x.ncol();</a>
+<a class="sourceLine" id="cb5-26" data-line-number="26">  NumericVector res(nc);</a>
+<a class="sourceLine" id="cb5-27" data-line-number="27">  <span class="kw">auto</span> t = res.begin();</a>
+<a class="sourceLine" id="cb5-28" data-line-number="28">  <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span>&amp; u : make_strided_range(begin(x), nr, nc))</a>
+<a class="sourceLine" id="cb5-29" data-line-number="29">  {</a>
+<a class="sourceLine" id="cb5-30" data-line-number="30">    <span class="cf">for</span> (<span class="kw">auto</span> v = &amp;u; v != &amp;u + nr; ++v) *t += *v;</a>
+<a class="sourceLine" id="cb5-31" data-line-number="31">    ++t;</a>
+<a class="sourceLine" id="cb5-32" data-line-number="32">  }</a>
+<a class="sourceLine" id="cb5-33" data-line-number="33">  <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb5-34" data-line-number="34">}</a>
+<a class="sourceLine" id="cb5-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">// [[Rcpp::export]]</span></a>
+<a class="sourceLine" id="cb5-37" data-line-number="37">NumericVector strided_col_sum(<span class="at">const</span> NumericMatrix&amp; x)</a>
+<a class="sourceLine" id="cb5-38" data-line-number="38">{</a>
+<a class="sourceLine" id="cb5-39" data-line-number="39">  <span class="kw">auto</span> nr = x.nrow();</a>
+<a class="sourceLine" id="cb5-40" data-line-number="40">  NumericVector res(x.ncol());</a>
+<a class="sourceLine" id="cb5-41" data-line-number="41">  transform(make_strided(begin(x), nr), make_strided(end(x)), begin(res),</a>
+<a class="sourceLine" id="cb5-42" data-line-number="42">            [nr](<span class="at">const</span> <span class="dt">double</span>&amp; v){ <span class="cf">return</span> accumulate(&amp;v, &amp;v + nr, <span class="fl">0.0</span>); });</a>
+<a class="sourceLine" id="cb5-43" data-line-number="43">  <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb5-44" data-line-number="44">}</a></code></pre></div>
 <p>In this case, owing to the column-major memory layout of R matrices, the STL <code>transform</code> algorithm combined with <code>make_strided</code> is the most compact in terms of code. Furthermore, the strided iterator is incremented in the outer loop meaning the scanning of the matrix is in the optimal order. The performance of these three implementations are equivalent, as is R’s built in <code>colSumms</code> implemented in C.</p>
 <table>
 <caption>Evaluations per second</caption>
@@ -272,22 +506,22 @@ NumericVector strided_col_sum(<span class="at">const</span> NumericMatrix&amp; x
 <tbody>
 <tr class="odd">
 <td align="left">strided_col_sum(x)</td>
-<td align="right">1036.2</td>
+<td align="right">1059.2</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
 <td align="left">colSums(x)</td>
-<td align="right">1032.9</td>
+<td align="right">1041.4</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">range_col_sum(x)</td>
-<td align="right">1029.9</td>
+<td align="left">indx_col_sum(x)</td>
+<td align="right">1036.7</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">indx_col_sum(x)</td>
-<td align="right">1028.1</td>
+<td align="left">range_col_sum(x)</td>
+<td align="right">1029.8</td>
 <td align="right">1</td>
 </tr>
 </tbody>
@@ -296,61 +530,61 @@ NumericVector strided_col_sum(<span class="at">const</span> NumericMatrix&amp; x
 <div id="row-sums" class="section level3">
 <h3>Row sums</h3>
 <p>Summing over rows is more interesting because R matrices are stored in column-major format. That means that looping over a row will skip from column to column by-passing all the rows in between. This non-local memory access is a drag on performance. Four implementations of the row-summing algorithm are given below.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// [[Rcpp::depends(BH)]]</span>
-<span class="co">// [[Rcpp::depends(strider)]]</span>
-<span class="co">// [[Rcpp::plugins(cpp11)]]</span>
-
-<span class="pp">#include </span><span class="im">&lt;vignette.h&gt;</span>
-
-<span class="co">// [[Rcpp::export]]</span>
-NumericVector indx_row_sum(<span class="at">const</span> NumericMatrix&amp; x)
-{
-  <span class="kw">auto</span>
-    nr = x.nrow(),
-    nc = x.ncol();
-  NumericVector res(nr, <span class="fl">0.0</span>);
-  <span class="cf">for</span> (<span class="dt">int</span> c = <span class="dv">0</span>; c != nc; ++c)
-    <span class="cf">for</span> (<span class="dt">int</span> r = <span class="dv">0</span>; r != nr; ++r)
-      res[r] += x(r, c);
-  <span class="cf">return</span> res;
-}
-
-<span class="co">// [[Rcpp::export]]</span>
-NumericVector range_row_sum(<span class="at">const</span> NumericMatrix&amp; x)
-{
-  <span class="kw">auto</span>
-    nr = x.nrow(),
-    nc = x.ncol();
-  NumericVector res(nc);
-  <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span>&amp; u : make_strided_range(begin(x), nr, nc))
-  {
-    <span class="kw">auto</span> t = begin(res);
-    <span class="cf">for</span> (<span class="kw">auto</span> v = &amp;u; v != &amp;u + nr; ++v) *t++ += *v;
-  }
-  <span class="cf">return</span> res;
-}
-
-<span class="co">// [[Rcpp::export]]</span>
-NumericVector strided_row_sum(<span class="at">const</span> NumericMatrix&amp; x)
-{
-  <span class="kw">auto</span>
-    nr = x.nrow(),
-    nc = x.ncol();
-  NumericVector res(nr);
-  transform(begin(x), begin(x) + nr, begin(res), [nr, nc](<span class="at">const</span> <span class="dt">double</span>&amp; v) {
-    <span class="cf">return</span> accumulate(make_strided(&amp;v, nr), make_strided(&amp;v, nr, nc), <span class="fl">0.0</span>); });
-  <span class="cf">return</span> res;
-}
-
-<span class="co">// [[Rcpp::export]]</span>
-NumericVector strided_row_sum2(<span class="at">const</span> NumericMatrix&amp; x)
-{
-  <span class="kw">auto</span> nr = x.nrow();
-  NumericVector res(nr, <span class="fl">0.0</span>);
-  for_each(make_strided(begin(x), nr), make_strided(end(x)), [&amp;res, nr](<span class="at">const</span> <span class="dt">double</span>&amp; y) {
-    transform(&amp;y, &amp;y + nr, begin(res), begin(res), plus&lt;<span class="dt">double</span>&gt;()); });
-  <span class="cf">return</span> res;
-}</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">// [[Rcpp::depends(BH)]]</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">// [[Rcpp::depends(strider)]]</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">// [[Rcpp::plugins(cpp11)]]</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="pp">#include </span><span class="im">&lt;vignette.h&gt;</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">// [[Rcpp::export]]</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">NumericVector indx_row_sum(<span class="at">const</span> NumericMatrix&amp; x)</a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">{</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">  <span class="kw">auto</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">    nr = x.nrow(),</a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">    nc = x.ncol();</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13">  NumericVector res(nr, <span class="fl">0.0</span>);</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">  <span class="cf">for</span> (<span class="dt">int</span> c = <span class="dv">0</span>; c != nc; ++c)</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">    <span class="cf">for</span> (<span class="dt">int</span> r = <span class="dv">0</span>; r != nr; ++r)</a>
+<a class="sourceLine" id="cb6-16" data-line-number="16">      res[r] += x(r, c);</a>
+<a class="sourceLine" id="cb6-17" data-line-number="17">  <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb6-18" data-line-number="18">}</a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">// [[Rcpp::export]]</span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21">NumericVector range_row_sum(<span class="at">const</span> NumericMatrix&amp; x)</a>
+<a class="sourceLine" id="cb6-22" data-line-number="22">{</a>
+<a class="sourceLine" id="cb6-23" data-line-number="23">  <span class="kw">auto</span></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24">    nr = x.nrow(),</a>
+<a class="sourceLine" id="cb6-25" data-line-number="25">    nc = x.ncol();</a>
+<a class="sourceLine" id="cb6-26" data-line-number="26">  NumericVector res(nc);</a>
+<a class="sourceLine" id="cb6-27" data-line-number="27">  <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span>&amp; u : make_strided_range(begin(x), nr, nc))</a>
+<a class="sourceLine" id="cb6-28" data-line-number="28">  {</a>
+<a class="sourceLine" id="cb6-29" data-line-number="29">    <span class="kw">auto</span> t = begin(res);</a>
+<a class="sourceLine" id="cb6-30" data-line-number="30">    <span class="cf">for</span> (<span class="kw">auto</span> v = &amp;u; v != &amp;u + nr; ++v) *t++ += *v;</a>
+<a class="sourceLine" id="cb6-31" data-line-number="31">  }</a>
+<a class="sourceLine" id="cb6-32" data-line-number="32">  <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb6-33" data-line-number="33">}</a>
+<a class="sourceLine" id="cb6-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb6-35" data-line-number="35"><span class="co">// [[Rcpp::export]]</span></a>
+<a class="sourceLine" id="cb6-36" data-line-number="36">NumericVector strided_row_sum(<span class="at">const</span> NumericMatrix&amp; x)</a>
+<a class="sourceLine" id="cb6-37" data-line-number="37">{</a>
+<a class="sourceLine" id="cb6-38" data-line-number="38">  <span class="kw">auto</span></a>
+<a class="sourceLine" id="cb6-39" data-line-number="39">    nr = x.nrow(),</a>
+<a class="sourceLine" id="cb6-40" data-line-number="40">    nc = x.ncol();</a>
+<a class="sourceLine" id="cb6-41" data-line-number="41">  NumericVector res(nr);</a>
+<a class="sourceLine" id="cb6-42" data-line-number="42">  transform(begin(x), begin(x) + nr, begin(res), [nr, nc](<span class="at">const</span> <span class="dt">double</span>&amp; v) {</a>
+<a class="sourceLine" id="cb6-43" data-line-number="43">    <span class="cf">return</span> accumulate(make_strided(&amp;v, nr), make_strided(&amp;v, nr, nc), <span class="fl">0.0</span>); });</a>
+<a class="sourceLine" id="cb6-44" data-line-number="44">  <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb6-45" data-line-number="45">}</a>
+<a class="sourceLine" id="cb6-46" data-line-number="46"></a>
+<a class="sourceLine" id="cb6-47" data-line-number="47"><span class="co">// [[Rcpp::export]]</span></a>
+<a class="sourceLine" id="cb6-48" data-line-number="48">NumericVector strided_row_sum2(<span class="at">const</span> NumericMatrix&amp; x)</a>
+<a class="sourceLine" id="cb6-49" data-line-number="49">{</a>
+<a class="sourceLine" id="cb6-50" data-line-number="50">  <span class="kw">auto</span> nr = x.nrow();</a>
+<a class="sourceLine" id="cb6-51" data-line-number="51">  NumericVector res(nr, <span class="fl">0.0</span>);</a>
+<a class="sourceLine" id="cb6-52" data-line-number="52">  for_each(make_strided(begin(x), nr), make_strided(end(x)), [&amp;res, nr](<span class="at">const</span> <span class="dt">double</span>&amp; y) {</a>
+<a class="sourceLine" id="cb6-53" data-line-number="53">    transform(&amp;y, &amp;y + nr, begin(res), begin(res), plus&lt;<span class="dt">double</span>&gt;()); });</a>
+<a class="sourceLine" id="cb6-54" data-line-number="54">  <span class="cf">return</span> res;</a>
+<a class="sourceLine" id="cb6-55" data-line-number="55">}</a></code></pre></div>
 <p>Again, the <code>transform</code> with <code>accumulate</code> implementation is compact, but here the strided iterator is in the inner loop causing poor memory locality. The alternative implementation uses <code>for_each</code> with <code>make_strided</code> to skip to the top of each column and then uses <code>transform</code> to accumulate the values. The final range-based version is equivalent to the <code>for_each</code> with <code>transform</code> version.</p>
 <p>The benchmark results show that indeed placing the strided iterator in the inner loop gives poor results. The index-based, range-based and <code>for_each</code>-<code>transform</code> version are all equivalent in efficiency. Interestingly, R’s built in <code>rowSums</code> is several times slower, most likely indicating that the column index is incremented in the inner loop.</p>
 <table>
@@ -365,28 +599,28 @@ NumericVector strided_row_sum2(<span class="at">const</span> NumericMatrix&amp; 
 <tbody>
 <tr class="odd">
 <td align="left">range_row_sum(x)</td>
-<td align="right">1912.2</td>
+<td align="right">2062.5</td>
 <td align="right">1.0</td>
 </tr>
 <tr class="even">
 <td align="left">strided_row_sum2(x)</td>
-<td align="right">1906.5</td>
+<td align="right">2060.5</td>
 <td align="right">1.0</td>
 </tr>
 <tr class="odd">
 <td align="left">indx_row_sum(x)</td>
-<td align="right">1899.7</td>
+<td align="right">2005.7</td>
 <td align="right">1.0</td>
 </tr>
 <tr class="even">
-<td align="left">strided_row_sum(x)</td>
-<td align="right">496.4</td>
-<td align="right">0.3</td>
+<td align="left">rowSums(x)</td>
+<td align="right">482.4</td>
+<td align="right">0.2</td>
 </tr>
 <tr class="odd">
-<td align="left">rowSums(x)</td>
-<td align="right">479.4</td>
-<td align="right">0.3</td>
+<td align="left">strided_row_sum(x)</td>
+<td align="right">371.6</td>
+<td align="right">0.2</td>
 </tr>
 </tbody>
 </table>
@@ -394,87 +628,87 @@ NumericVector strided_row_sum2(<span class="at">const</span> NumericMatrix&amp; 
 <div id="d-convolution" class="section level3">
 <h3>2D convolution</h3>
 <p>A much better demonstration of the strided approach is to compute the 2-dimensional convolution. This requires four nested loops and much more expensive indexing calculations. Furthermore, because C++ does not provide a bivariate index operators, accessing 2D data structures requires defining a new method and the details of this method will strongly determine overhead. In the strided approach, we simply walk the output matrix by iteration, so no indexing is required.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// [[Rcpp::depends(BH)]]</span>
-<span class="co">// [[Rcpp::depends(strider)]]</span>
-<span class="co">// [[Rcpp::plugins(cpp11)]]</span>
-
-<span class="pp">#include </span><span class="im">&lt;vignette.h&gt;</span>
-
-<span class="co">// [[Rcpp::export]]</span>
-NumericMatrix
-convolve2_cpp(<span class="at">const</span> NumericMatrix&amp; a,
-              <span class="at">const</span> NumericMatrix&amp; b)
-{
-  <span class="dt">int</span>
-    nra = a.nrow(), nca = a.ncol(),
-    nrb = b.nrow(), ncb = b.ncol();
-  NumericMatrix ab(nra + nrb - <span class="dv">1</span>, nca + ncb - <span class="dv">1</span>);
-  <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i != nca; ++i)
-    <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j != ncb; ++j)
-      <span class="cf">for</span> (<span class="dt">int</span> k = <span class="dv">0</span>; k != nra; ++k)
-        <span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l != nrb; ++l)
-          ab(k + l, i + j) += a(k, i) * b(l, j);
-  <span class="cf">return</span> ab;
-}
-
-<span class="co">// [[Rcpp::export]]</span>
-NumericMatrix
-range_loop_convolve2(<span class="at">const</span> NumericMatrix&amp; a,
-                     <span class="at">const</span> NumericMatrix&amp; b)
-{
-  <span class="dt">int</span>
-    nra = a.nrow(), nca = a.ncol(),
-    nrb = b.nrow(), ncb = b.ncol(),
-    nrab = nra + nrb - <span class="dv">1</span>,
-    ncab = nca + ncb - <span class="dv">1</span>;
-  NumericMatrix ab(nrab, ncab);
-  <span class="kw">auto</span> iter1 = make_strided(begin(ab), nrab);
-  <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span>&amp; t : make_strided_range(begin(a), nra, nca)) {
-    <span class="kw">auto</span> iter2 = make_strided(&amp;*iter1++, nrab);
-    <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span>&amp; u : make_strided_range(begin(b), nrb, ncb)) {
-      <span class="kw">auto</span> iter3 = &amp;*iter2++;
-      <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span>&amp; v : make_strided_range(&amp;t, <span class="dv">1</span>, nra)) {
-        <span class="kw">auto</span> iter4 = iter3++;
-        <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span>&amp; w : make_strided_range(&amp;u, <span class="dv">1</span>, nrb)) {
-          *iter4++ += v * w; }}}}
-  <span class="cf">return</span> ab;
-}
-
-<span class="co">// [[Rcpp::export]]</span>
-NumericMatrix
-stl_algo_convolve2(<span class="at">const</span> NumericMatrix&amp; a,
-                   <span class="at">const</span> NumericMatrix&amp; b)
-{
-  <span class="dt">int</span>
-    nra = a.nrow(), nca = a.ncol(),
-    nrb = b.nrow(), ncb = b.ncol(),
-    nrab = nra + nrb - <span class="dv">1</span>,
-    ncab = nca + ncb - <span class="dv">1</span>;
-  NumericMatrix ab(nrab, ncab);
-  transform(make_strided(begin(a), nra), make_strided(end(a)),
-            make_strided(begin(ab), nrab), make_strided(begin(ab), nrab),
-            [&amp;](<span class="at">const</span> <span class="dt">double</span>&amp; t, <span class="dt">double</span>&amp; u) {
-    transform(make_strided(begin(b), nrb), make_strided(end(b)),
-              make_strided(&amp;u, nrab), make_strided(&amp;u, nrab),
-              [&amp;](<span class="at">const</span> <span class="dt">double</span>&amp; v, <span class="dt">double</span>&amp; w) {
-      transform(&amp;t, &amp;t + nra, &amp;w, &amp;w,
-                [&amp;](<span class="at">const</span> <span class="dt">double</span> x, <span class="dt">double</span>&amp; y) {
-        transform(&amp;v, &amp;v + nrb, &amp;y, &amp;y,
-                  [&amp;](<span class="at">const</span> <span class="dt">double</span> z, <span class="at">const</span> <span class="dt">double</span> zz) {
-          <span class="cf">return</span> zz + x * z; });
-        <span class="cf">return</span> y; });
-      <span class="cf">return</span> w; });
-    <span class="cf">return</span> u; });
-  <span class="cf">return</span> ab;
-}</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">// [[Rcpp::depends(BH)]]</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">// [[Rcpp::depends(strider)]]</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">// [[Rcpp::plugins(cpp11)]]</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="pp">#include </span><span class="im">&lt;vignette.h&gt;</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">// [[Rcpp::export]]</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">NumericMatrix</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">convolve2_cpp(<span class="at">const</span> NumericMatrix&amp; a,</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">              <span class="at">const</span> NumericMatrix&amp; b)</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">{</a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">  <span class="dt">int</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13">    nra = a.nrow(), nca = a.ncol(),</a>
+<a class="sourceLine" id="cb7-14" data-line-number="14">    nrb = b.nrow(), ncb = b.ncol();</a>
+<a class="sourceLine" id="cb7-15" data-line-number="15">  NumericMatrix ab(nra + nrb - <span class="dv">1</span>, nca + ncb - <span class="dv">1</span>);</a>
+<a class="sourceLine" id="cb7-16" data-line-number="16">  <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i != nca; ++i)</a>
+<a class="sourceLine" id="cb7-17" data-line-number="17">    <span class="cf">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j != ncb; ++j)</a>
+<a class="sourceLine" id="cb7-18" data-line-number="18">      <span class="cf">for</span> (<span class="dt">int</span> k = <span class="dv">0</span>; k != nra; ++k)</a>
+<a class="sourceLine" id="cb7-19" data-line-number="19">        <span class="cf">for</span> (<span class="dt">int</span> l = <span class="dv">0</span>; l != nrb; ++l)</a>
+<a class="sourceLine" id="cb7-20" data-line-number="20">          ab(k + l, i + j) += a(k, i) * b(l, j);</a>
+<a class="sourceLine" id="cb7-21" data-line-number="21">  <span class="cf">return</span> ab;</a>
+<a class="sourceLine" id="cb7-22" data-line-number="22">}</a>
+<a class="sourceLine" id="cb7-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">// [[Rcpp::export]]</span></a>
+<a class="sourceLine" id="cb7-25" data-line-number="25">NumericMatrix</a>
+<a class="sourceLine" id="cb7-26" data-line-number="26">range_loop_convolve2(<span class="at">const</span> NumericMatrix&amp; a,</a>
+<a class="sourceLine" id="cb7-27" data-line-number="27">                     <span class="at">const</span> NumericMatrix&amp; b)</a>
+<a class="sourceLine" id="cb7-28" data-line-number="28">{</a>
+<a class="sourceLine" id="cb7-29" data-line-number="29">  <span class="dt">int</span></a>
+<a class="sourceLine" id="cb7-30" data-line-number="30">    nra = a.nrow(), nca = a.ncol(),</a>
+<a class="sourceLine" id="cb7-31" data-line-number="31">    nrb = b.nrow(), ncb = b.ncol(),</a>
+<a class="sourceLine" id="cb7-32" data-line-number="32">    nrab = nra + nrb - <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb7-33" data-line-number="33">    ncab = nca + ncb - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb7-34" data-line-number="34">  NumericMatrix ab(nrab, ncab);</a>
+<a class="sourceLine" id="cb7-35" data-line-number="35">  <span class="kw">auto</span> iter1 = make_strided(begin(ab), nrab);</a>
+<a class="sourceLine" id="cb7-36" data-line-number="36">  <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span>&amp; t : make_strided_range(begin(a), nra, nca)) {</a>
+<a class="sourceLine" id="cb7-37" data-line-number="37">    <span class="kw">auto</span> iter2 = make_strided(&amp;*iter1++, nrab);</a>
+<a class="sourceLine" id="cb7-38" data-line-number="38">    <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span>&amp; u : make_strided_range(begin(b), nrb, ncb)) {</a>
+<a class="sourceLine" id="cb7-39" data-line-number="39">      <span class="kw">auto</span> iter3 = &amp;*iter2++;</a>
+<a class="sourceLine" id="cb7-40" data-line-number="40">      <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span>&amp; v : make_strided_range(&amp;t, <span class="dv">1</span>, nra)) {</a>
+<a class="sourceLine" id="cb7-41" data-line-number="41">        <span class="kw">auto</span> iter4 = iter3++;</a>
+<a class="sourceLine" id="cb7-42" data-line-number="42">        <span class="cf">for</span> (<span class="at">const</span> <span class="kw">auto</span>&amp; w : make_strided_range(&amp;u, <span class="dv">1</span>, nrb)) {</a>
+<a class="sourceLine" id="cb7-43" data-line-number="43">          *iter4++ += v * w; }}}}</a>
+<a class="sourceLine" id="cb7-44" data-line-number="44">  <span class="cf">return</span> ab;</a>
+<a class="sourceLine" id="cb7-45" data-line-number="45">}</a>
+<a class="sourceLine" id="cb7-46" data-line-number="46"></a>
+<a class="sourceLine" id="cb7-47" data-line-number="47"><span class="co">// [[Rcpp::export]]</span></a>
+<a class="sourceLine" id="cb7-48" data-line-number="48">NumericMatrix</a>
+<a class="sourceLine" id="cb7-49" data-line-number="49">stl_algo_convolve2(<span class="at">const</span> NumericMatrix&amp; a,</a>
+<a class="sourceLine" id="cb7-50" data-line-number="50">                   <span class="at">const</span> NumericMatrix&amp; b)</a>
+<a class="sourceLine" id="cb7-51" data-line-number="51">{</a>
+<a class="sourceLine" id="cb7-52" data-line-number="52">  <span class="dt">int</span></a>
+<a class="sourceLine" id="cb7-53" data-line-number="53">    nra = a.nrow(), nca = a.ncol(),</a>
+<a class="sourceLine" id="cb7-54" data-line-number="54">    nrb = b.nrow(), ncb = b.ncol(),</a>
+<a class="sourceLine" id="cb7-55" data-line-number="55">    nrab = nra + nrb - <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb7-56" data-line-number="56">    ncab = nca + ncb - <span class="dv">1</span>;</a>
+<a class="sourceLine" id="cb7-57" data-line-number="57">  NumericMatrix ab(nrab, ncab);</a>
+<a class="sourceLine" id="cb7-58" data-line-number="58">  transform(make_strided(begin(a), nra), make_strided(end(a)),</a>
+<a class="sourceLine" id="cb7-59" data-line-number="59">            make_strided(begin(ab), nrab), make_strided(begin(ab), nrab),</a>
+<a class="sourceLine" id="cb7-60" data-line-number="60">            [&amp;](<span class="at">const</span> <span class="dt">double</span>&amp; t, <span class="dt">double</span>&amp; u) {</a>
+<a class="sourceLine" id="cb7-61" data-line-number="61">    transform(make_strided(begin(b), nrb), make_strided(end(b)),</a>
+<a class="sourceLine" id="cb7-62" data-line-number="62">              make_strided(&amp;u, nrab), make_strided(&amp;u, nrab),</a>
+<a class="sourceLine" id="cb7-63" data-line-number="63">              [&amp;](<span class="at">const</span> <span class="dt">double</span>&amp; v, <span class="dt">double</span>&amp; w) {</a>
+<a class="sourceLine" id="cb7-64" data-line-number="64">      transform(&amp;t, &amp;t + nra, &amp;w, &amp;w,</a>
+<a class="sourceLine" id="cb7-65" data-line-number="65">                [&amp;](<span class="at">const</span> <span class="dt">double</span> x, <span class="dt">double</span>&amp; y) {</a>
+<a class="sourceLine" id="cb7-66" data-line-number="66">        transform(&amp;v, &amp;v + nrb, &amp;y, &amp;y,</a>
+<a class="sourceLine" id="cb7-67" data-line-number="67">                  [&amp;](<span class="at">const</span> <span class="dt">double</span> z, <span class="at">const</span> <span class="dt">double</span> zz) {</a>
+<a class="sourceLine" id="cb7-68" data-line-number="68">          <span class="cf">return</span> zz + x * z; });</a>
+<a class="sourceLine" id="cb7-69" data-line-number="69">        <span class="cf">return</span> y; });</a>
+<a class="sourceLine" id="cb7-70" data-line-number="70">      <span class="cf">return</span> w; });</a>
+<a class="sourceLine" id="cb7-71" data-line-number="71">    <span class="cf">return</span> u; });</a>
+<a class="sourceLine" id="cb7-72" data-line-number="72">  <span class="cf">return</span> ab;</a>
+<a class="sourceLine" id="cb7-73" data-line-number="73">}</a></code></pre></div>
 <p>As a quick test, I check whether the convolution is invariant to the delta function as required.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>,
-             <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>), <span class="dv">2</span>, <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)
-b =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,
-             <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,
-             <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>,
-             <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dv">4</span>, <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)
-<span class="kw">stl_algo_convolve2</span>(a, b)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">a =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">             <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>), <span class="dv">2</span>, <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">b =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">             <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">             <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">             <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dv">4</span>, <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="kw">stl_algo_convolve2</span>(a, b)</a></code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5]
 ## [1,]    0    0    0    0    0
 ## [2,]    0    0    0    0    0
@@ -493,18 +727,18 @@ b =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</s
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">stl_algo_convolve2(a, b)</td>
-<td align="right">441.4</td>
+<td align="left">convolve2_cpp(a, b)</td>
+<td align="right">452.2</td>
 <td align="right">1.0</td>
 </tr>
 <tr class="even">
-<td align="left">range_loop_convolve2(a, b)</td>
-<td align="right">401.2</td>
-<td align="right">0.9</td>
+<td align="left">stl_algo_convolve2(a, b)</td>
+<td align="right">441.8</td>
+<td align="right">1.0</td>
 </tr>
 <tr class="odd">
-<td align="left">convolve2_cpp(a, b)</td>
-<td align="right">357.7</td>
+<td align="left">range_loop_convolve2(a, b)</td>
+<td align="right">370.9</td>
 <td align="right">0.8</td>
 </tr>
 </tbody>
@@ -523,6 +757,9 @@ b =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</s
 <hr />
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

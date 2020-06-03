@@ -4,10 +4,17 @@ author: "Timothy H. Keitt"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{The Strider Package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+```{r echo=FALSE}
+if (!require("BH", quietly = TRUE)) {
+   message("This vignette needs BH; since it is not installed, code will not be executed.")
+   knitr::opts_chunk$set(eval = FALSE)
+}
+```
 
 "I don't think he knows about second breakfast" - Meriadoc 'Merry' Brandybuck
 
